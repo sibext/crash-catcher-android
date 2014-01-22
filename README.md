@@ -3,7 +3,7 @@ Android Crash Catcher
 
 Android Crash Catcher is simply a mechanism for catching any exception in android SDK
 
-<img style="position: relative; width: 768px; margin: 0;" src="http://www.sibext.com/images/products/android_crach_catcher.png"/>
+<img style="position: relative; width: 768px; margin: 0;" src="http://www.sibext.com/images/android_crach_catcher.png"/>
 
 [![Try demo on Google Play](http://www.android.com/images/brand/get_it_on_play_logo_small.png)](https://play.google.com/store/apps/details?id=com.sibext.android.crash_catcher_demo)
 
