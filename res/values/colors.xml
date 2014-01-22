@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="com_sibext_crashcatcher_green">#ff669900</color>
+    <color name="com_sibext_crashcatcher_alert">#ea556f</color>
+</resources>

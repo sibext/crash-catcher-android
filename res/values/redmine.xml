@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="redmine_project">your-app-id</string>
+    <string name="redmine_host">https://redmine</string>
+    <string name="redmine_access_key">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</string>
+    <string name="redmine_assignee_login">your-login</string>
+    
+</resources>

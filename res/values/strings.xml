@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="crash_catcher">Crash Catcher</string>
+    <string name="crash_message">I am sorry, the application has crashed! Can you send crash-report, please?</string>
+    <string name="preparing_report">Preparing crash-report&#8230;</string>
+    
+    <string name="crash_dialog_title">Crash</string>
+    <string name="crash_dialog_message">Do you want to send the report about crash.</string>
+    
+    <string name="metadata_recipient_key">recipient_address</string>
+    <string name="metadata_reporter_key">reporter</string>
+    <string name="metadata_redmine_project">redmine_project</string>
+    <string name="metadata_redmine_host">redmine_host</string>
+    <string name="metadata_redmine_key">redmine_access_key</string>
+    <string name="metadata_redmine_assignee_login">redmine_assignee_login</string>
+
+    <string name="com_sibext_crashcatcher_status">Your report was sent, thank you! Report id = %s</string>
+    <string name="com_sibext_crashcatcher_already_exist">Your report already exist, thank you anyway!</string>
+    
+    <string name="com_sibext_crashcatcher_message_hint">Could you write a couple of words about the crash? (Optional)</string>
+    <string name="com_sibext_crashcatcher_yes">Yes, sure!</string>
+    <string name="com_sibext_crashcatcher_no">No, thanks</string>
+    <string name="com_sibext_crashcatcher_exit">Close</string>
+    <string name="com_sibext_crashcatcher_error">Can\'t send the report, could you check network connection?</string>
+    <string name="com_sibext_crashcatcher_select_transfer">Send report via:</string>
+
+</resources>
