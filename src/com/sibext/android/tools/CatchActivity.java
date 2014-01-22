@@ -54,7 +54,7 @@ import com.sibext.crashcatcher.R;
  * 
  */
 public abstract class CatchActivity extends Activity {
-	private static final String TAG = "CrashCatcherActivity";
+	private static final String TAG = "[CCL] CrashCatcherActivity";
 
 	private static final String DEFAULT_CRASH_SUBJECT = "Crash report";
 	private static final String DEFAULT_SUBJECT = "Report";
@@ -118,7 +118,6 @@ public abstract class CatchActivity extends Activity {
                 new CrashSendTask(false).execute();
             }
         });
-
 		super.onCreate(savedInstanceState);
 	}
 

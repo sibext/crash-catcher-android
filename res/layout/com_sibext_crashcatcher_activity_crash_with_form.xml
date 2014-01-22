@@ -59,8 +59,9 @@
         android:layout_marginRight="2dp"
         android:layout_toLeftOf="@id/com_sibext_crashcatcher_note"
         android:text="@string/com_sibext_crashcatcher_no"
-        android:textColor="@android:color/darker_gray"
-        android:textStyle="normal" />
+        android:textColor="@android:color/white"
+        android:background="@color/com_sibext_crashcatcher_red"
+        android:textStyle="normal"/>
 
     <Button
         android:id="@+id/com_sibext_crashcatcher_yes"
@@ -73,7 +74,9 @@
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/com_sibext_crashcatcher_note"
         android:text="@string/com_sibext_crashcatcher_yes"
-        android:textStyle="bold" />
+        android:textColor="@android:color/white"
+        android:background="@color/com_sibext_crashcatcher_green"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/com_sibext_crashcatcher_crash_error"

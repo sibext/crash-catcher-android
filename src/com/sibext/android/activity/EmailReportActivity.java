@@ -84,6 +84,7 @@ public class EmailReportActivity extends CatchActivity {
             extraText.append(body.toString());
             i.putExtra(Intent.EXTRA_TEXT, extraText.toString());
             startActivity(Intent.createChooser(i, getString(R.string.com_sibext_crashcatcher_select_transfer)));
+            onReportSent();
             return true;
         } catch (ActivityNotFoundException ex) {
             onReportUnSent();
@@ -125,7 +126,7 @@ public class EmailReportActivity extends CatchActivity {
         } 
     }
 
-    private String getRecipient() {
+    protected String getRecipient() {
         return recipient;
     }
 
