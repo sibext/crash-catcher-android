@@ -41,7 +41,9 @@ import com.sibext.android.tools.SHA1Helper;
 import com.sibext.crashcatcher.R;
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
+import com.taskadapter.redmineapi.RedmineManager.INCLUDE;
 import com.taskadapter.redmineapi.bean.Issue;
+import com.taskadapter.redmineapi.bean.Journal;
 import com.taskadapter.redmineapi.bean.User;
 
 public class RedmineReportActivity extends CatchActivity {
@@ -55,6 +57,8 @@ public class RedmineReportActivity extends CatchActivity {
     private Handler handler;
     private RedmineManager manager;
 
+    private boolean founded;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,15 +97,25 @@ public class RedmineReportActivity extends CatchActivity {
                         params.put("author_id", "me");
                         List<Issue> foundIssues = manager.getIssues(params);
                         
-                        boolean founded = false; 
+                        founded = false;
+                        Issue sameIssue = null;
                         for (Issue issue : foundIssues) {
                             if (issue.getDescription().contains(SHA1Helper.getSHA1(body.toString()))) {
                                 founded = true;
+                                sameIssue = issue;
                                 break;
                             }
                         }
                         if (founded) {
                             onReportSent(getString(R.string.com_sibext_crashcatcher_already_exist));
+                            // Needs reopen if already closed or resolved
+                            if (sameIssue.getStatusName().equalsIgnoreCase("Closed") || sameIssue.getStatusName().equalsIgnoreCase("Resolved")) {
+                                Issue loadedIssueWithJournals = manager.getIssueById(sameIssue.getId(), INCLUDE.journals);
+                                loadedIssueWithJournals.setStatusId(4);
+                                loadedIssueWithJournals.setStatusName("Reopen");
+                                loadedIssueWithJournals.setNotes(title + " has been detected again!\n" + "*Comments:* " + getNotes());
+                                manager.update(loadedIssueWithJournals);
+                            }
                             return;
                         }
                     }
@@ -150,6 +164,10 @@ public class RedmineReportActivity extends CatchActivity {
 
     protected boolean isIgnoreDuplicates() {
         return true;
+    }
+
+    protected boolean isDuplicate() {
+        return founded;
     }
 
     private boolean invalidArguments() {
