@@ -55,32 +55,41 @@ public class CrashCatcherManager {
         } catch (ClassNotFoundException e1) {
             Log.w(TAG, "Using default reporter...");
         }
-
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            private volatile boolean alreadyCrashed = false;
             @Override
             public void uncaughtException(Thread paramThread, final Throwable e) {
-                final String stackTrace = StackTraceHelper.getStackTrace(e);
-                Log.e(TAG, "Error: " + stackTrace);
-                final Intent crashedIntent;
-                if (catchClass != null) {
-                    crashedIntent = new Intent(context.getApplicationContext(), catchClass);
-                } else {
-                    crashedIntent = new Intent(context.getApplicationContext(), getDefaultReporterClass());
-                }
-                crashedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                crashedIntent.putExtra(CatchActivity.TRACE_INFO, stackTrace);
-                final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, crashedIntent, 0);
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            pendingIntent.send(context.getApplicationContext(), 0, null);
-                            Log.d(TAG, "sent new crash");
-                            System.exit(0);
-                        } catch (PendingIntent.CanceledException e) {
-                            Log.d(TAG, "Can't start activity", e);
-                        }
+                if (alreadyCrashed) return;
+                alreadyCrashed = true;
+                try {
+                    final String stackTrace = StackTraceHelper.getStackTrace(e);
+                    Log.e(TAG, "Error: " + stackTrace);
+                    final Intent crashedIntent;
+                    if (catchClass != null) {
+                        crashedIntent = new Intent(context.getApplicationContext(), catchClass);
+                    } else {
+                        crashedIntent = new Intent(context.getApplicationContext(), getDefaultReporterClass());
                     }
-                });
+                    crashedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    crashedIntent.putExtra(CatchActivity.TRACE_INFO, stackTrace);
+                    final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, crashedIntent, 0);
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        public void run() {
+                            try {
+                                pendingIntent.send(context.getApplicationContext(), 0, null);
+                                Log.d(TAG, "sent new crash");
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                                System.exit(10);
+                            } catch (PendingIntent.CanceledException e) {
+                                Log.d(TAG, "Can't start activity", e);
+                            }
+                        }
+                    });
+                } catch (Throwable e1) {
+                    try {
+                        Log.e(TAG, "Can't handle  the crash", e1);
+                    } catch (Throwable e2) {}
+                }
             }
 
         });
@@ -92,7 +101,7 @@ public class CrashCatcherManager {
     }
 
     public void unRegister() {
-        context = null;
+//        context = null;
     }
 
     protected Class<?> getDefaultReporterClass() {
