@@ -110,4 +110,23 @@ public class CrashCatcherManager {
     protected Class<?> getDefaultReporterClass() {
         return EmailReportActivity.class;
     }
+    
+    private Class<?> getCatchClass(){
+        ApplicationInfo ai = null;
+        Class<?> catchClass = null;
+        try {
+            ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            if (ai != null) {
+                String className = ai.metaData.getString(context.getString(R.string.metadata_reporter_key));
+                if (null != className) {
+                    catchClass = Class.forName(className);
+                }
+            }
+        } catch (NameNotFoundException e) {
+            Log.e(TAG, "Can't get init params", e);
+        } catch (ClassNotFoundException e1) {
+            Log.w(TAG, "Using default reporter...");
+        }
+        return catchClass;
+    }
 }
