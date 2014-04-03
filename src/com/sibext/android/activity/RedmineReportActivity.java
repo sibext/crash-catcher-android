@@ -43,7 +43,6 @@ import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
 import com.taskadapter.redmineapi.RedmineManager.INCLUDE;
 import com.taskadapter.redmineapi.bean.Issue;
-import com.taskadapter.redmineapi.bean.Journal;
 import com.taskadapter.redmineapi.bean.User;
 
 public class RedmineReportActivity extends CatchActivity {
@@ -62,7 +61,8 @@ public class RedmineReportActivity extends CatchActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tryGetArgumentsFromManifest();
+        
+       tryGetArgumentsFromManifest();
         if (invalidArguments()) {
             tryGetArgumentsFromResources();
         }
@@ -76,7 +76,8 @@ public class RedmineReportActivity extends CatchActivity {
     }
 
     @Override
-    protected boolean onReportReadyForSend(final String title, final StringBuilder body, String resultPath, boolean isMonuallyMode) {
+    protected boolean onReportReadyForSend(final String title, final StringBuilder body, 
+            String resultPath, final boolean isMonuallyMode) {
         final Issue issueToCreate = new Issue();
         final File logFile = new File(resultPath);
         issueToCreate.setSubject(title);
@@ -91,7 +92,7 @@ public class RedmineReportActivity extends CatchActivity {
             @Override
             public void run() {
                 try {
-                    if (isIgnoreDuplicates()) {
+                    if (isIgnoreDuplicates() && !isMonuallyMode) {
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("project_id", redmineProject);
                         params.put("author_id", "me");

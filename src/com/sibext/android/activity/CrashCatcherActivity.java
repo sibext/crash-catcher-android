@@ -36,6 +36,10 @@ public class CrashCatcherActivity extends Activity {
         super.onCreate(savedInstanceState);
     }
     
+    protected CrashCatcherManager getCrashCatcherManager(){
+        return manager;
+    }
+    
     @Override
     protected void onDestroy() {
         if(manager != null){

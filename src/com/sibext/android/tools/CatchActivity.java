@@ -40,6 +40,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sibext.android.manager.CrashCatcherManager;
 import com.sibext.android.sysinfo.SystemInfoBuilder;
 import com.sibext.crashcatcher.R;
 
@@ -57,7 +58,7 @@ public abstract class CatchActivity extends Activity {
 	private static final String TAG = "[CCL] CrashCatcherActivity";
 
 	private static final String DEFAULT_CRASH_SUBJECT = "Crash report";
-	private static final String DEFAULT_SUBJECT = "Report";
+	private static final String DEFAULT_SUBJECT = "MANUAL Report";
 
 	public static final String TRACE_INFO = "TRACE_INFO";
     public static final String RESULT_EXTRA_TEXT = "RESULT_EXTRA_TEXT";
@@ -71,11 +72,14 @@ public abstract class CatchActivity extends Activity {
 			+ "/result.jpg";
 
 	private ProgressBar progressBar;
+	private TextView titleText;
 	private TextView statusText;
 	private Button yes;
 	private Button no;
 	private EditText note;
 	protected String currentReportId;
+	
+    private boolean isManual;
 
 	public class CrashCatcherError extends Error {
 
@@ -96,10 +100,18 @@ public abstract class CatchActivity extends Activity {
         setContentView(R.layout.com_sibext_crashcatcher_activity_crash_with_form);
         progressBar = (ProgressBar)findViewById(R.id.com_sibext_crashcatcher_crash_progress);
         statusText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_status);
+        titleText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_error);
+        
         yes = (Button)findViewById(R.id.com_sibext_crashcatcher_yes);
         no = (Button)findViewById(R.id.com_sibext_crashcatcher_no);
         note = (EditText)findViewById(R.id.com_sibext_crashcatcher_note);
 
+        isManual = getIntent().getBooleanExtra(CrashCatcherManager.MANUAL_FLAG_KEY, false);
+
+        titleText.setText(isManual ? R.string.manual_report_message : R.string.crash_message);
+        note.setHint(isManual ? R.string.com_sibext_crashcatcher_manual_message_hint
+                : R.string.com_sibext_crashcatcher_message_hint);
+        
         no.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +127,7 @@ public abstract class CatchActivity extends Activity {
                 no.setClickable(false);
                 note.setEnabled(false);
                 progressBar.setVisibility(View.VISIBLE);
-                new CrashSendTask(false).execute();
+                new CrashSendTask(isManual).execute();
             }
         });
 		super.onCreate(savedInstanceState);
@@ -291,8 +303,10 @@ public abstract class CatchActivity extends Activity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
+                Log.i(TAG, "Capture log...");
                 captureLog();
             } catch (CrashCatcherError e) {
+                Log.e(TAG, "ERROR wher capture log!");
                 body.append(e.getMessage()).append("\n");
                 return false;
             }

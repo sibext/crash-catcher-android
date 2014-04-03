@@ -3,6 +3,7 @@
 
     <string name="crash_catcher">Crash Catcher</string>
     <string name="crash_message">I am sorry, the application has crashed! Can you send crash-report, please?</string>
+    <string name="manual_report_message">You can send the report. Please make some description of reason for report.</string>
     <string name="preparing_report">Preparing crash-report&#8230;</string>
     
     <string name="crash_dialog_title">Crash</string>
@@ -19,6 +20,7 @@
     <string name="com_sibext_crashcatcher_already_exist">Your report already exist, thank you anyway!</string>
     
     <string name="com_sibext_crashcatcher_message_hint">Could you write a couple of words about the crash? (Optional)</string>
+    <string name="com_sibext_crashcatcher_manual_message_hint">Desription of problem (Optional)</string>
     <string name="com_sibext_crashcatcher_yes">Yes, sure!</string>
     <string name="com_sibext_crashcatcher_no">No, thanks</string>
     <string name="com_sibext_crashcatcher_exit">Close</string>

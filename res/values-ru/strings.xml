@@ -3,6 +3,7 @@
 
     <string name="crash_catcher">Crash Catcher</string>
     <string name="crash_message">Прошу прощения, но приложение завершило работу некорректно, не могли бы вы отослать нам отчет?</string>
+    <string name="manual_report_message">Вы можете отправить отчет разработчикам. Пожалуйста, кратко опешите причину, по которой вы отправлюете данный отчет.</string>
     <string name="preparing_report">Подготовка отчета&#8230;</string>
     
     <string name="crash_dialog_title">Отправка отчета</string>
@@ -12,6 +13,7 @@
     <string name="com_sibext_crashcatcher_already_exist">Отчет такой уже существует, спасибо за помощь!</string>
     
     <string name="com_sibext_crashcatcher_message_hint">Напишите коротко о случившемся падении (Необязательно)</string>
+    <string name="com_sibext_crashcatcher_manual_message_hint">Описание проблемы (Необязательно)</string>
     <string name="com_sibext_crashcatcher_yes">Да, конечно!</string>
     <string name="com_sibext_crashcatcher_no">Нет, не надо</string>
     <string name="com_sibext_crashcatcher_exit">Закрыть</string>
