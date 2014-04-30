@@ -20,13 +20,6 @@
 
 package com.sibext.android.tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.io.Writer;
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,15 +27,14 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.sibext.android.manager.CrashCatcherManager;
-import com.sibext.android.sysinfo.SystemInfoBuilder;
 import com.sibext.crashcatcher.R;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 
 /**
  * The Simple crash catcher activity for automatic send email report.
@@ -65,33 +57,20 @@ public abstract class CatchActivity extends Activity {
 
 	private final static String STORAGE_DIRECTORY = Environment.getExternalStorageDirectory().toString();
 	private final static String SETTINGS_DIR_PROJECT = STORAGE_DIRECTORY + "/.settings";
-	private final static String SETTINGS_DIR_LOG = STORAGE_DIRECTORY
+	final static String SETTINGS_DIR_LOG = STORAGE_DIRECTORY
 			+ "/.logcat";
 	private final static String PATH_TO_LOG = SETTINGS_DIR_LOG + "/logcat.txt";
 	private final static String PATH_TO_RESULT = SETTINGS_DIR_PROJECT
 			+ "/result.jpg";
 
 	private ProgressBar progressBar;
-	private TextView titleText;
-	private TextView statusText;
+    private TextView statusText;
 	private Button yes;
 	private Button no;
 	private EditText note;
 	protected String currentReportId;
 	
     private boolean isManual;
-
-	public class CrashCatcherError extends Error {
-
-		public CrashCatcherError(String detailMessage) {
-			super(detailMessage);
-		}
-
-		public CrashCatcherError(Throwable throwable) {
-			super(throwable);
-		}
-
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +79,7 @@ public abstract class CatchActivity extends Activity {
         setContentView(R.layout.com_sibext_crashcatcher_activity_crash_with_form);
         progressBar = (ProgressBar)findViewById(R.id.com_sibext_crashcatcher_crash_progress);
         statusText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_status);
-        titleText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_error);
+        final TextView titleText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_error);
         
         yes = (Button)findViewById(R.id.com_sibext_crashcatcher_yes);
         no = (Button)findViewById(R.id.com_sibext_crashcatcher_no);
@@ -212,38 +191,10 @@ public abstract class CatchActivity extends Activity {
 		return SETTINGS_DIR_LOG;
 	}
 
-	private void captureLog() {
-		Process LogcatProc = null;
-		BufferedReader reader = null;
-		StringBuilder log = new StringBuilder();
-
-		initFolder();
-
-		try {
-			LogcatProc = Runtime.getRuntime().exec(
-					new String[] { "logcat", "-d" });
-
-			reader = new BufferedReader(new InputStreamReader(
-					LogcatProc.getInputStream()));
-
-			String line;
-			long time = System.currentTimeMillis();
-			Log.d(TAG, System.currentTimeMillis() + "");
-			while ((line = reader.readLine()) != null) {
-				log.append(line).append(System.getProperty("line.separator"));
-			}
-			Log.d(TAG, (System.currentTimeMillis() - time) + "");
-			log.append(new SystemInfoBuilder().build());
-		} catch (Exception e) {
-			throw new CrashCatcherError("Get logcat failed");
-		} finally {
-			try {
-				reader.close();
-			} catch (Exception e) {
-			}
-		}
-		saveLogToFile(log);
-	}
+    private void captureLog() {
+        final StringBuilder log = ReportHelper.getLog();
+        saveLogToFile(log);
+    }
 
 	private void saveLogToFile(StringBuilder builder) {
 		File outputFile = new File(getPathLog());
@@ -265,22 +216,15 @@ public abstract class CatchActivity extends Activity {
 		}
 	}
 
-	private String getFinalSubject(boolean isMonuallyMode) {
+	private String getFinalSubject(boolean isManuallyMode) {
 	    currentReportId = ReportHelper.generateReportID();
 		try {
 			String versionName = getPackageManager().getPackageInfo(
 					getPackageName(), 0).versionName;
 			return "[" + getPackageName() + " v" + versionName + "] "
-					+ (isMonuallyMode ? getSubject() : getCrashSubject()) + " " + currentReportId;
+					+ (isManuallyMode ? getSubject() : getCrashSubject()) + " " + currentReportId;
 		} catch (Exception e) {
 			return "[" + getPackageName() + " NO VERSION] " + getSubject() + " " + currentReportId;
-		}
-	}
-
-	private void initFolder() {
-		File tempDir = new File(getPathDirLog());
-		if (!tempDir.exists()) {
-			tempDir.mkdirs();
 		}
 	}
 
@@ -293,11 +237,11 @@ public abstract class CatchActivity extends Activity {
     }
 
     private class CrashSendTask extends AsyncTask<Void, Void, Boolean> {
-        private final boolean isMonuallyMode;
+        private final boolean isManuallyMode;
         private StringBuilder body = new StringBuilder("");
 
-        public CrashSendTask(boolean isMonuallyMode) {
-            this.isMonuallyMode = isMonuallyMode;
+        public CrashSendTask(boolean isManuallyMode) {
+            this.isManuallyMode = isManuallyMode;
         }
 
         @Override
@@ -321,13 +265,14 @@ public abstract class CatchActivity extends Activity {
             if (hasExtraText()) {
                 body.append(getExtraText());
             }
-            if (!isMonuallyMode) {
+            if (!isManuallyMode ) {
                 body.append("\n").append(" Error: ").append(getIntent().getStringExtra(TRACE_INFO));
             } else {
                 body.append("\n").append("Note: Manually sending");
             }
 
-            if (onReportReadyForSend(getFinalSubject(isMonuallyMode), body, getPathLog(), isMonuallyMode)) {
+            if (onReportReadyForSend(getFinalSubject(isManuallyMode), body, getPathLog(),
+                                     isManuallyMode)) {
                 finish();
             }
 
