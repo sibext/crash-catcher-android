@@ -11,8 +11,9 @@ buildscript {
 apply plugin: 'android-library'
 apply plugin: 'android-maven'
 
-group = "com.sibext"
-version = "1.5.0"
+project.archivesBaseName = 'crashcatcher'
+group = 'com.sibext'
+version = '1.5.0'
 
 repositories {
     mavenCentral()
@@ -22,10 +23,18 @@ android {
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
 
+    defaultConfig {
+        applicationId group + '.' + project.archivesBaseName
+        versionCode 1
+        versionName version
+        minSdkVersion 5
+        targetSdkVersion 20
+    }
+
     sourceSets {
         main.setRoot('src')
         main {
-            manifest.srcFile 'AndroidManifest.xml'
+            manifest.srcFile 'lib_version/AndroidManifest.xml'
             java.srcDirs = ['src']
             resources.srcDirs = ['src']
             aidl.srcDirs = ['src']
