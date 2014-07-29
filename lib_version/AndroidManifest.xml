@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.sibext.crashcatcher">
 
-    <application
-        android:label="@string/crash_catcher"/>
+    <application/>
 
 </manifest>
