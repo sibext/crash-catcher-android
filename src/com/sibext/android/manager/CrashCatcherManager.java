@@ -27,6 +27,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.sibext.android.activity.EmailReportActivity;
@@ -68,8 +70,8 @@ public class CrashCatcherManager {
     public void manualSendReport(){
         sendReport("Manual", true);
     }
-    
-    public void sendReport(String stackTrace, final boolean manual){
+
+    private void sendReport(String stackTrace, final boolean manual){
         final Intent crashedIntent;
         if (catchClass != null) {
             crashedIntent = new Intent(context.getApplicationContext(), catchClass);
@@ -115,6 +117,7 @@ public class CrashCatcherManager {
         ApplicationInfo ai = null;
         Class<?> catchClass = null;
         try {
+        	Log.d(TAG, "get catch class: " + context.getPackageName());
             ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             if (ai != null) {
                 String className = ai.metaData.getString(context.getString(R.string.metadata_reporter_key));
