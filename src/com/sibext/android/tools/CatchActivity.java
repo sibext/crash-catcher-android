@@ -2,18 +2,18 @@
  * This file is part of CrashCatcher library.
  * Copyright (c) 2014, Sibext Ltd. (http://www.sibext.com), 
  * All rights reserved.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3.0 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
  * See the GNU Lesser General Public License 
  * for more details (http://www.gnu.org/licenses/lgpl-3.0.txt).
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library.
  */
@@ -38,49 +38,49 @@ import java.io.Writer;
 
 /**
  * The Simple crash catcher activity for automatic send email report.
- * 
+ * <p/>
  * <p>
  * </p>
- * 
+ *
  * @author Nikolay Moskvin <moskvin@sibext.com>
  * @author Mike Osipov <osipov@sibext.com>
- * 
  */
 public abstract class CatchActivity extends Activity {
-	private static final String TAG = "[CCL] CrashCatcherActivity";
 
-	private static final String DEFAULT_CRASH_SUBJECT = "Crash report";
-	private static final String DEFAULT_SUBJECT = "MANUAL Report";
+    private static final String TAG = "[CCL] CrashCatcherActivity";
 
-	public static final String TRACE_INFO = "TRACE_INFO";
+    private static final String DEFAULT_CRASH_SUBJECT = "Crash report";
+    private static final String DEFAULT_SUBJECT = "MANUAL Report";
+
+    public static final String TRACE_INFO = "TRACE_INFO";
     public static final String RESULT_EXTRA_TEXT = "RESULT_EXTRA_TEXT";
 
-	private final static String STORAGE_DIRECTORY = Environment.getExternalStorageDirectory().toString();
-	private final static String SETTINGS_DIR_PROJECT = STORAGE_DIRECTORY + "/.settings";
-	final static String SETTINGS_DIR_LOG = STORAGE_DIRECTORY
-			+ "/.logcat";
-	private final static String PATH_TO_LOG = SETTINGS_DIR_LOG + "/logcat.txt";
-	private final static String PATH_TO_RESULT = SETTINGS_DIR_PROJECT
-			+ "/result.jpg";
+    private final static String STORAGE_DIRECTORY = Environment.getExternalStorageDirectory()
+                                                               .toString();
+    private final static String SETTINGS_DIR_PROJECT = STORAGE_DIRECTORY + "/.settings";
+    final static String SETTINGS_DIR_LOG = STORAGE_DIRECTORY + "/.logcat";
+    private final static String PATH_TO_LOG = SETTINGS_DIR_LOG + "/logcat.txt";
+    private final static String PATH_TO_RESULT = SETTINGS_DIR_PROJECT + "/result.jpg";
 
-	private ProgressBar progressBar;
+    private ProgressBar progressBar;
     private TextView statusText;
-	private Button yes;
-	private Button no;
-	private EditText note;
-	protected String currentReportId;
-	
+    private Button yes;
+    private Button no;
+    private EditText note;
+    protected String currentReportId;
+
     private boolean isManual;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: start");
         setTitle(getString(R.string.crash_catcher));
         setContentView(R.layout.com_sibext_crashcatcher_activity_crash_with_form);
         progressBar = (ProgressBar)findViewById(R.id.com_sibext_crashcatcher_crash_progress);
         statusText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_status);
         final TextView titleText = (TextView)findViewById(R.id.com_sibext_crashcatcher_crash_error);
-        
+
         yes = (Button)findViewById(R.id.com_sibext_crashcatcher_yes);
         no = (Button)findViewById(R.id.com_sibext_crashcatcher_no);
         note = (EditText)findViewById(R.id.com_sibext_crashcatcher_note);
@@ -89,8 +89,8 @@ public abstract class CatchActivity extends Activity {
 
         titleText.setText(isManual ? R.string.manual_report_message : R.string.crash_message);
         note.setHint(isManual ? R.string.com_sibext_crashcatcher_manual_message_hint
-                : R.string.com_sibext_crashcatcher_message_hint);
-        
+                             : R.string.com_sibext_crashcatcher_message_hint);
+
         no.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,42 +109,43 @@ public abstract class CatchActivity extends Activity {
                 new CrashSendTask(isManual).execute();
             }
         });
-		super.onCreate(savedInstanceState);
-	}
+        Log.d(TAG, "onCreate: finish");
+    }
 
-	@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy:");
         no.setOnClickListener(null);
         yes.setOnClickListener(null);
     }
 
-    abstract protected boolean onReportReadyForSend(String title, StringBuilder body, String resultPath, boolean isMonuallyMode);
+    abstract protected boolean onReportReadyForSend(String title, StringBuilder body, String resultPath, boolean isManual);
 
-	protected void onReportSent() {
-	    onReportSent(getString(R.string.com_sibext_crashcatcher_status, currentReportId));
+    protected void onReportSent() {
+        onReportSent(getString(R.string.com_sibext_crashcatcher_status, currentReportId));
     }
 
-	protected void onReportSent(final String status) {
-	    progressBar.post(new Runnable() {
-	        @Override
-	        public void run() {
-	            progressBar.setVisibility(View.INVISIBLE);
-	            statusText.setVisibility(View.VISIBLE);
-	            note.setVisibility(View.INVISIBLE);
-	            statusText.setText(status);
-	            no.setVisibility(View.INVISIBLE);
-	            yes.setText(R.string.com_sibext_crashcatcher_exit);
-	            yes.setOnClickListener(new OnClickListener() {
-	                @Override
-	                public void onClick(View v) {
-	                    finish();
-	                }
-	            });
-	            yes.setClickable(true);
-	        }
-	    });
-	}
+    protected void onReportSent(final String status) {
+        progressBar.post(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
+                statusText.setVisibility(View.VISIBLE);
+                note.setVisibility(View.INVISIBLE);
+                statusText.setText(status);
+                no.setVisibility(View.INVISIBLE);
+                yes.setText(R.string.com_sibext_crashcatcher_exit);
+                yes.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+                yes.setClickable(true);
+            }
+        });
+    }
 
     protected void onReportUnSent() {
         onReportUnSent(getString(R.string.com_sibext_crashcatcher_error));
@@ -171,62 +172,61 @@ public abstract class CatchActivity extends Activity {
         return getNotes().trim().length() != 0;
     }
 
-	private String getPathResult() {
-		return PATH_TO_RESULT;
-	}
+    private String getPathResult() {
+        return PATH_TO_RESULT;
+    }
 
-	private String getSubject() {
-		return DEFAULT_SUBJECT;
-	}
+    private String getSubject() {
+        return DEFAULT_SUBJECT;
+    }
 
-	private String getCrashSubject() {
-		return DEFAULT_CRASH_SUBJECT;
-	}
+    private String getCrashSubject() {
+        return DEFAULT_CRASH_SUBJECT;
+    }
 
-	private String getPathLog() {
-		return PATH_TO_LOG;
-	}
+    private String getPathLog() {
+        return PATH_TO_LOG;
+    }
 
-	private String getPathDirLog() {
-		return SETTINGS_DIR_LOG;
-	}
+    private String getPathDirLog() {
+        return SETTINGS_DIR_LOG;
+    }
 
     private void captureLog() {
         final StringBuilder log = ReportHelper.getLog();
         saveLogToFile(log);
     }
 
-	private void saveLogToFile(StringBuilder builder) {
-		File outputFile = new File(getPathLog());
-		if (outputFile.exists()) {
-			outputFile.delete();
-		}
-		Writer writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter(outputFile));
-			writer.write(builder.toString());
-		} catch (Exception e) {
-			Log.e(TAG, "saveLogToFile failed", e);
-			throw new CrashCatcherError("Error writing file on device");
-		} finally {
-			try {
-				writer.close();
-			} catch (Exception e) {
-			}
-		}
-	}
+    private void saveLogToFile(StringBuilder builder) {
+        File outputFile = new File(getPathLog());
+        if ( outputFile.exists() ) {
+            outputFile.delete();
+        }
+        Writer writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(outputFile));
+            writer.write(builder.toString());
+        } catch (Exception e) {
+            Log.e(TAG, "saveLogToFile failed", e);
+            throw new CrashCatcherError("Error writing file on device");
+        } finally {
+            try {
+                writer.close();
+            } catch (Exception e) {
+            }
+        }
+    }
 
-	private String getFinalSubject(boolean isManuallyMode) {
-	    currentReportId = ReportHelper.generateReportID();
-		try {
-			String versionName = getPackageManager().getPackageInfo(
-					getPackageName(), 0).versionName;
-			return "[" + getPackageName() + " v" + versionName + "] "
-					+ (isManuallyMode ? getSubject() : getCrashSubject()) + " " + currentReportId;
-		} catch (Exception e) {
-			return "[" + getPackageName() + " NO VERSION] " + getSubject() + " " + currentReportId;
-		}
-	}
+    private String getFinalSubject(boolean isManuallyMode) {
+        currentReportId = ReportHelper.generateReportID();
+        try {
+            String versionName = getPackageManager()
+                    .getPackageInfo(getPackageName(), 0).versionName;
+            return "[" + getPackageName() + " v" + versionName + "] " + ( isManuallyMode ? getSubject() : getCrashSubject() ) + " " + currentReportId;
+        } catch (Exception e) {
+            return "[" + getPackageName() + " NO VERSION] " + getSubject() + " " + currentReportId;
+        }
+    }
 
     private String getExtraText() {
         return getIntent().getStringExtra(RESULT_EXTRA_TEXT);
@@ -250,7 +250,7 @@ public abstract class CatchActivity extends Activity {
                 Log.i(TAG, "Capture log...");
                 captureLog();
             } catch (CrashCatcherError e) {
-                Log.e(TAG, "ERROR wher capture log!");
+                Log.e(TAG, "ERROR when capture log!");
                 body.append(e.getMessage()).append("\n");
                 return false;
             }
@@ -259,23 +259,23 @@ public abstract class CatchActivity extends Activity {
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if (isCancelled()) {
+            if ( isCancelled() ) {
                 return;
             }
-            if (hasExtraText()) {
+            if ( hasExtraText() ) {
                 body.append(getExtraText());
             }
-            if (!isManuallyMode ) {
-                body.append("\n").append(" Error: ").append(getIntent().getStringExtra(TRACE_INFO));
+            body.append("\n");
+            if ( !isManuallyMode ) {
+                body.append(" Error: ").append(getIntent().getStringExtra(TRACE_INFO));
             } else {
-                body.append("\n").append("Note: Manually sending");
+                body.append("Note: Manually sending");
             }
 
-            if (onReportReadyForSend(getFinalSubject(isManuallyMode), body, getPathLog(),
-                                     isManuallyMode)) {
+            final String title = getFinalSubject(isManuallyMode);
+            if ( onReportReadyForSend(title, body, getPathLog(), isManuallyMode) ) {
                 finish();
             }
-
         }
     }
 

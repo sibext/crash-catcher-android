@@ -20,9 +20,6 @@
 
 package com.sibext.android.activity;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -31,9 +28,11 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.sibext.android.tools.CatchActivity;
 import com.sibext.crashcatcher.R;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class EmailReportActivity extends CatchActivity {
     private static final String TAG = "[CCL] EmailReportActivity";
@@ -47,7 +46,7 @@ public class EmailReportActivity extends CatchActivity {
     }
 
     @Override
-    protected boolean onReportReadyForSend(String title, StringBuilder body, String path, boolean isMonuallyMode) {
+    protected boolean onReportReadyForSend(String title, StringBuilder body, String path, boolean isManual) {
         Intent i = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL, new String[] { getRecipient() });
@@ -90,7 +89,7 @@ public class EmailReportActivity extends CatchActivity {
             onReportUnSent();
             Log.e(TAG, "Can't send report", ex);
         }
-        return !isMonuallyMode;
+        return !isManual;
     }
 
     protected String getAttachFileDir() {
