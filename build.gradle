@@ -13,14 +13,14 @@ apply plugin: 'android-maven'
 
 project.archivesBaseName = 'crashcatcher'
 group = 'com.sibext'
-version = '1.5.1'
+version = '1.5.2'
 
 repositories {
     mavenCentral()
 }
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 19
     buildToolsVersion "20.0.0"
 
     defaultConfig {
@@ -28,7 +28,7 @@ android {
         versionCode 1
         versionName version
         minSdkVersion 5
-        targetSdkVersion 20
+        targetSdkVersion 19
     }
 
     sourceSets {
