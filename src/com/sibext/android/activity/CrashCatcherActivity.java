@@ -22,16 +22,14 @@ package com.sibext.android.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-
 import com.sibext.android.manager.CrashCatcherManager;
 
 public class CrashCatcherActivity extends Activity {
     
-    private CrashCatcherManager manager;
+    private final CrashCatcherManager manager = new CrashCatcherManager();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        manager = new CrashCatcherManager();
         manager.register(this);
         super.onCreate(savedInstanceState);
     }
@@ -42,9 +40,7 @@ public class CrashCatcherActivity extends Activity {
     
     @Override
     protected void onDestroy() {
-        if(manager != null){
-            manager.unRegister();
-        }
+        manager.unRegister();
         super.onDestroy();
     }
 }

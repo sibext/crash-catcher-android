@@ -116,7 +116,8 @@ public class CrashCatcherManager {
             final ApplicationInfo ai = context.getPackageManager()
                         .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             if ( ai != null ) {
-                String className = ai.metaData.getString(context.getString(R.string.metadata_reporter_key));
+                final String reporterKey = context.getString(R.string.metadata_reporter_key);
+                final String className = ai.metaData.getString(reporterKey);
                 if ( null != className ) {
                     catchClass = Class.forName(className);
                 }
