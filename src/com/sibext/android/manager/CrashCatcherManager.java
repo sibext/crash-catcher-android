@@ -102,7 +102,7 @@ public class CrashCatcherManager {
     }
 
     public void unRegister() {
-        //context = null;
+        context = null;
     }
 
     protected Class<?> getDefaultReporterClass() {
