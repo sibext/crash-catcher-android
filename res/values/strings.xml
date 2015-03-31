@@ -27,4 +27,19 @@
     <string name="com_sibext_crashcatcher_error">Can\'t send the report, could you check network connection?</string>
     <string name="com_sibext_crashcatcher_select_transfer">Send report via:</string>
 
+    <string name="error_type">Error type</string>
+    <string name="comment">Comment</string>
+    <string name="comment_hint">Could you write a couple of words about the crash? (Optional)</string>
+    <string name="button_no_text">No, thanks</string>
+    <string name="button_yes_text">Yes, sure!</string>
+    <string name="privacy">View privacy policy</string>
+    <string name="detailed_information">Detailed information</string>
+    <string name="requested_page">The requested page</string>
+    <string name="choose_photo">Choose \nphoto</string>
+
+    <string name="error_type_crash">Crash</string>
+    <string name="error_type_logic_bug">Logic bug</string>
+    <string name="error_type_ui_bug">UI bug</string>
+    <string name="error_type_feedback">Feedback</string>
+
 </resources>

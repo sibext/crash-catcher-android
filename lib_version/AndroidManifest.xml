@@ -2,8 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.sibext.crashcatcher">
 
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application>
+        <meta-data
+            android:name="recipient_address"
+            android:value="xxxxx@yyy.zzz" />
+        <meta-data
+            android:name="reporter"
+            android:value="com.sibext.android.activity.RedmineReportActivity" />
         <activity android:name="com.sibext.android.tools.CatchActivity" />
+
+        <activity android:name="com.sibext.android.activity.TestActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sibext.android.activity.NewDesignActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar">
+        </activity>
+
+        <activity
+            android:name="com.sibext.android.activity.RedmineReportActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@android:style/Theme.Holo.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

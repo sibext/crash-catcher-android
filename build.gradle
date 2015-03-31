@@ -1,36 +1,36 @@
+
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:1.0+'
         classpath 'com.github.dcendents:android-maven-plugin:1.0'
     }
 }
 
-apply plugin: 'android-library'
-apply plugin: 'android-maven'
+apply plugin: 'com.android.application'
 
 project.archivesBaseName = 'crashcatcher'
 group = 'com.sibext'
-version = '1.6.1'
+version = '1.6.0'
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://mvn.sibext.com/"
+    }
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "20.0.0"
-
+    buildToolsVersion '20.0.0'
     defaultConfig {
-        packageName group + '.' + project.archivesBaseName
         versionCode 1
         versionName version
-        minSdkVersion 5
+        minSdkVersion 11
         targetSdkVersion 19
     }
-
     sourceSets {
         main.setRoot('src')
         main {
@@ -43,22 +43,19 @@ android {
         }
         androidTest.setRoot('tests')
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
-
     lintOptions {
         abortOnError false
     }
+
 }
 
-repositories {
-    maven.url = 'http://mvn.sibext.com'
-}
 
 dependencies {
     compile 'com.taskadapter:redmine-java-api:1.23.1'
     compile 'org.apache.commons:commons-io:1.3.2'
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
 }

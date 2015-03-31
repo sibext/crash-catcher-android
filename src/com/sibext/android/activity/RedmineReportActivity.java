@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class RedmineReportActivity extends CatchActivity {
+public class RedmineReportActivity extends NewDesignActivity {
     private static final String TAG = "[CCL] RedmineReportActivity";
     private String redmineHost = null;
     private String redmineKey = null;
@@ -74,7 +74,7 @@ public class RedmineReportActivity extends CatchActivity {
     }
 
     @Override
-    protected boolean onReportReadyForSend(final String title, final StringBuilder body,String resultPath, final boolean isManual) {
+    protected boolean onReportReadyForSend(final String title, final StringBuilder body,String resultPath, final boolean isManual, ErrorType errorType) {
         Log.d(TAG, "onReportReadyForSend:");
         final Issue issueToCreate = new Issue();
         final File logFile = new File(resultPath);

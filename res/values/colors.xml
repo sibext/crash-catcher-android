@@ -3,4 +3,14 @@
     <color name="com_sibext_crashcatcher_green">#ff669900</color>
     <color name="com_sibext_crashcatcher_alert">#fecc00</color>
     <color name="com_sibext_crashcatcher_red">#ea556f</color>
+
+    <color name="com_sibext_crashcatcher_main_text_color">#444</color>
+    <color name="com_sibext_crashcatcher_dark_bg">#00aad5</color>
+    <color name="com_sibext_crashcatcher_light_bg">#00cdff</color>
+    <color name="com_sibext_crashcatcher_slider_light_bg">#66eeff</color>
+    <color name="com_sibext_crashcatcher_blue_panel">#0082a2</color>
+    <color name="com_sibext_crashcatcher_orange">#ff6600</color>
+    <color name="com_sibext_crashcatcher_gray_dark">#555555</color>
+    <color name="com_sibext_crashcatcher_gray">#606060</color>
+    <color name="com_sibext_crashcatcher_orange_dark">#ff5500</color>
 </resources>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/com_sibext_crashcatcher_light_bg"
+        android:layout_marginTop="@dimen/slider_content_top_margin"
+        android:paddingTop="10dp"
+        android:clickable="true"
+        android:paddingLeft="@dimen/slider_content_horizontal_padding"
+        android:paddingRight="@dimen/slider_content_horizontal_padding"
+        android:layout_below="@+id/relativeLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/main_text_medium"
+            android:text="@string/detailed_information"
+            android:layout_weight="0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/main_text_small"
+            android:text="@string/requested_page"
+            android:layout_weight="0"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@android:color/white"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageViewScreenshot"
+                    android:adjustViewBounds="true"
+                    android:layout_weight="1"
+                    android:src="@drawable/screenshot"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/com_sibext_crashcatcher_main_text_color"
+                        android:textSize="@dimen/main_text_medium"
+                        android:text="@string/choose_photo"/>
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/imageViewUpload"
+                        android:clickable="true"
+                        android:src="@drawable/upload" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/com_sibext_crashcatcher_slider_light_bg"
+            android:layout_weight="0">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/com_sibext_crashcatcher_blue_panel"
+                android:textSize="@dimen/main_text_medium"
+                android:padding="5dp"
+                android:text="GTA Novosibirsk\n11:43 AMm 16 dec 2014\nSibext Ltd. 2013"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/slider_header_height"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:id="@+id/relativeLayout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_corner_radius"
+            android:layout_marginTop="@dimen/slider_header_shadow_top_margin"
+            android:background="@color/com_sibext_crashcatcher_blue_panel"/>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="@dimen/slider_header_width"
+            android:layout_height="@dimen/slider_header_height"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_rectangle_slider"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="@dimen/slider_header_circle"
+                android:layout_height="@dimen/slider_header_circle"
+                android:id="@+id/slider_circle"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/blue_circle"/>
+
+            <ImageView
+                android:layout_width="@dimen/slider_header_circle"
+                android:layout_height="@dimen/slider_header_circle"
+                android:id="@+id/slider_circle_arrow"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/slider_circle_arrow_padding"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/circle_arrow_up"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>

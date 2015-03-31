@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_text_medium">22sp</dimen>
+    <dimen name="main_text_small">19sp</dimen>
+    <dimen name="header_text_size">23sp</dimen>
+    <dimen name="header_text_padding_top">12dp</dimen>
+    <dimen name="header_line_height">2dp</dimen>
+    <dimen name="header_text_padding_bottom">10dp</dimen>
+    <dimen name="header_text_padding_vertical">22dp</dimen>
+    <dimen name="error_panel_corner_radius">30dp</dimen>
+    <dimen name="panel_elems_corner_radius">15dp</dimen>
+    <dimen name="panel_horizontal_padding">60dp</dimen>
+    <dimen name="logo_padding">10dp</dimen>
+    <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="panel_text_size">22sp</dimen>
+    <dimen name="privacy_text_size">22sp</dimen>
+    <dimen name="no_button_text_size">17sp</dimen>
+    <dimen name="yes_button_text_size">23sp</dimen>
+    <dimen name="no_yes_button_size">50dp</dimen>
+    <dimen name="slider_header_height">50dp</dimen>
+    <dimen name="slider_header_width">200dp</dimen>
+    <dimen name="slider_header_circle">40dp</dimen>
+    <dimen name="slider_header_shadow_top_margin">25dp</dimen>
+    <dimen name="slider_header_closed_height">50dp</dimen>
+    <dimen name="slider_content_top_margin">-16dp</dimen>
+    <dimen name="slider_circle_arrow_padding">10dp</dimen>
+    <dimen name="slider_content_horizontal_padding">50dp</dimen>
+    <dimen name="spinner_height">35dp</dimen>
+    <dimen name="comments_height">150dp</dimen>
+</resources>

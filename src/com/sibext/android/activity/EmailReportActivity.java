@@ -34,7 +34,7 @@ import com.sibext.crashcatcher.R;
 import java.io.File;
 import java.util.ArrayList;
 
-public class EmailReportActivity extends CatchActivity {
+public class EmailReportActivity extends NewDesignActivity {
     private static final String TAG = "[CCL] EmailReportActivity";
 
     private String recipient;
@@ -46,7 +46,7 @@ public class EmailReportActivity extends CatchActivity {
     }
 
     @Override
-    protected boolean onReportReadyForSend(String title, StringBuilder body, String path, boolean isManual) {
+    protected boolean onReportReadyForSend(String title, StringBuilder body, String path, boolean isManual, ErrorType errorType) {
         Intent i = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL, new String[] { getRecipient() });
