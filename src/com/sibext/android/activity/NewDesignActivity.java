@@ -1,23 +1,18 @@
 package com.sibext.android.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,21 +36,27 @@ public abstract class NewDesignActivity extends Activity{
 
     public static enum ErrorType{
 
-        CRASH(R.string.error_type_crash, 0),
-        LOGIC_BUG(R.string.error_type_logic_bug, 0),
-        UI_BUG(R.string.error_type_ui_bug, 0),
-        FEEDBACK(R.string.error_type_feedback, 0);
+        CRASH(R.string.error_type_crash, 0, R.string.json_error_type_value_crash),
+        LOGIC_BUG(R.string.error_type_logic_bug, 1, R.string.json_error_type_value_logic),
+        UI_BUG(R.string.error_type_ui_bug, 2, R.string.json_error_type_value_ui),
+        FEEDBACK(R.string.error_type_feedback, 3, R.string.json_error_type_value_feedback);
 
         private int nameId;
         private int code;
+        private int jsonKeyId;
 
-        ErrorType(int name, int code){
+        ErrorType(int name, int code, int jsonKeyId){
             this.nameId = name;
             this.code = code;
+            this.jsonKeyId = jsonKeyId;
         }
 
         public int getName(){
             return nameId;
+        }
+
+        public int getJsonKeyId() {
+            return jsonKeyId;
         }
 
         public static ErrorType fromCode(int code){
@@ -74,7 +75,10 @@ public abstract class NewDesignActivity extends Activity{
     private TextView privacyText;
     private View logo;
     private View sliderContent;
+    private View noteLayout;
     private View header;
+    private View buttons;
+    private LinearLayout panel;
 
     private ArrayAdapter spinnerAdapter;
 
@@ -82,6 +86,9 @@ public abstract class NewDesignActivity extends Activity{
 
     private static final String DEFAULT_CRASH_SUBJECT = "Crash report";
     private static final String DEFAULT_SUBJECT = "MANUAL Report";
+
+    private static final String KEY_REPORT_IS_SENT = "KEY_REPORT_SENT";
+    private static final String KEY_REPORT_STATUS = "KEY_REPORT_STATUS";
 
     public static final String TRACE_INFO = "TRACE_INFO";
     public static final String RESULT_EXTRA_TEXT = "RESULT_EXTRA_TEXT";
@@ -94,14 +101,17 @@ public abstract class NewDesignActivity extends Activity{
     private final static String PATH_TO_RESULT = SETTINGS_DIR_PROJECT + "/result.jpg";
 
     private View yes;
-    private TextView yesText;
     private View no;
     private EditText note;
+    private TextView status;
     protected String currentReportId;
 
     private boolean isManual;
 
     private boolean isOpened = false;
+
+    private boolean reportIsSended = false;
+    private String reportStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +119,17 @@ public abstract class NewDesignActivity extends Activity{
         Log.d(TAG, "onCreate: start");
         setContentView(R.layout.new_activity);
 
-        TextView titleText = (TextView) findViewById(R.id.titleText);
+        TextView titleText = (TextView) findViewById(R.id.com_sibext_crashcatcher_titleText);
         sliderArrow = (ImageView) findViewById(R.id.slider_circle_arrow);
-        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        privacyText = (TextView) findViewById(R.id.privacy);
-        logo = findViewById(R.id.logo);
-        sliderContent = findViewById(R.id.slider_content);
-        header = findViewById(R.id.header);
+        slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.com_sibext_crashcatcher_sliding_layout);
+        spinner = (Spinner) findViewById(R.id.com_sibext_crashcatcher_spinner);
+        privacyText = (TextView) findViewById(R.id.com_sibext_crashcatcher_privacy);
+        buttons = findViewById(R.id.com_sibext_crashcatcher_buttons_layout);
+        logo = findViewById(R.id.com_sibext_crashcatcher_logo);
+        panel = (LinearLayout) findViewById(R.id.com_sibext_crashcatcher_panel);
+        sliderContent = findViewById(R.id.com_sibext_crashcatcher_slider_content);
+        header = findViewById(R.id.com_sibext_crashcatcher_header);
+        noteLayout = findViewById(R.id.com_sibext_crashcatcher_edit_text_layout);
 
         slidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -151,10 +164,9 @@ public abstract class NewDesignActivity extends Activity{
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
-        yes = findViewById(R.id.button_yes);
-        yesText = (TextView) findViewById(R.id.button_yes_text);
-        no = findViewById(R.id.button_no);
-        note = (EditText)findViewById(R.id.editTextComment);
+        yes = findViewById(R.id.com_sibext_crashcatcher_button_yes);
+        no = findViewById(R.id.com_sibext_crashcatcher_button_no);
+        note = (EditText)findViewById(R.id.com_sibext_crashcatcher_edit_text_comment);
 
         isManual = getIntent().getBooleanExtra(CrashCatcherManager.MANUAL_FLAG_KEY, false);
 
@@ -184,6 +196,15 @@ public abstract class NewDesignActivity extends Activity{
         setListenerToRootView();
 
         privacyText.setPaintFlags(privacyText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        if (null != savedInstanceState){
+            reportIsSended = savedInstanceState.getBoolean(KEY_REPORT_IS_SENT);
+            String status = savedInstanceState.getString(KEY_REPORT_STATUS);
+            if (reportIsSended){
+                showReportInfo(status);
+                this.status.setText(status);
+            }
+        }
     }
 
     @Override
@@ -204,16 +225,7 @@ public abstract class NewDesignActivity extends Activity{
         note.post(new Runnable() {
             @Override
             public void run() {
-                note.setVisibility(View.INVISIBLE);
-                no.setVisibility(View.INVISIBLE);
-                yesText.setText(R.string.com_sibext_crashcatcher_exit);
-                yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-                yes.setClickable(true);
+               showReportInfo(status);
             }
         });
     }
@@ -242,6 +254,13 @@ public abstract class NewDesignActivity extends Activity{
         return getNotes().trim().length() != 0;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_REPORT_IS_SENT, reportIsSended);
+        outState.putString(KEY_REPORT_STATUS, reportStatus);
+    }
+
     private String getPathResult() {
         return PATH_TO_RESULT;
     }
@@ -265,6 +284,26 @@ public abstract class NewDesignActivity extends Activity{
     private void captureLog() {
         final StringBuilder log = ReportHelper.getLog();
         saveLogToFile(log);
+    }
+
+    private void showReportInfo(final String status){
+        header.setVisibility(View.GONE);
+        panel.removeAllViewsInLayout();
+        View view = View.inflate(NewDesignActivity.this, R.layout.report_status_layout, panel);
+        TextView statusTextView = (TextView) view.findViewById(R.id.com_sibext_crashcatcher_status);
+        final View exitButton = findViewById(R.id.com_sibext_crashcatcher_button_close);
+        this.status = statusTextView;
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        statusTextView.setText(status);
+        buttons.setVisibility(View.INVISIBLE);
+        ((LinearLayout.LayoutParams) buttons.getLayoutParams()).weight = 0.6f;
+        reportIsSended = true;
+        reportStatus = status;
     }
 
     private void saveLogToFile(StringBuilder builder) {
@@ -344,10 +383,42 @@ public abstract class NewDesignActivity extends Activity{
 
             final String title = getFinalSubject(isManuallyMode);
             ErrorType[] values = ErrorType.values();
-            if ( onReportReadyForSend(title, body, getPathLog(), isManuallyMode, values[spinner.getSelectedItemPosition()]) ) {
+            if ( onReportReadyForSend(note.getText().toString(), body, getPathLog(), isManuallyMode, values[spinner.getSelectedItemPosition()]) ) {
                 finish();
             }
         }
+    }
+
+    private void onKeyboardOpened(){
+        logo.setVisibility(View.GONE);
+        header.setVisibility(View.GONE);
+        LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams) panel.getLayoutParams());
+        lp.weight = 1;
+        lp.height = 0;
+        panel.setLayoutParams(lp);
+        lp = ((LinearLayout.LayoutParams) noteLayout.getLayoutParams());
+        lp.weight = 1;
+        lp.height = 0;
+        noteLayout.setLayoutParams(lp);
+        //privacyText.setVisibility(View.GONE);
+        //sliderContent.setVisibility(View.GONE);
+        //slidingUpPanelLayout.setPanelHeight(0);
+    }
+
+    private void onKeyboardClosed(){
+        logo.setVisibility(View.VISIBLE);
+        header.setVisibility(View.VISIBLE);
+        //slidingUpPanelLayout.setPanelHeight((int) getResources().getDimension(R.dimen.slider_header_closed_height));
+        LinearLayout.LayoutParams lp = ((LinearLayout.LayoutParams) panel.getLayoutParams());
+        lp.weight = 0;
+        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        panel.setLayoutParams(lp);
+        lp = ((LinearLayout.LayoutParams) noteLayout.getLayoutParams());
+        lp.weight = 0;
+        lp.height = (int) getResources().getDimension(R.dimen.comments_height);
+        noteLayout.setLayoutParams(lp);
+        //privacyText.setVisibility(View.VISIBLE);
+        //sliderContent.setVisibility(View.VISIBLE);
     }
 
     public void setListenerToRootView(){
@@ -358,22 +429,15 @@ public abstract class NewDesignActivity extends Activity{
 
                 int heightDiff = activityRootView.getRootView().getHeight() - activityRootView.getHeight();
                 if (heightDiff > 100 ) { // 99% of the time the height diff will be due to a keyboard.
-                    //sliderContent.setVisibility(View.GONE);
                     if(!isOpened){
                         //Do two things, make the view top visible and the editText smaller
-                        logo.setVisibility(View.GONE);
-                        header.setVisibility(View.GONE);
-                        privacyText.setVisibility(View.GONE);
-                        slidingUpPanelLayout.setPanelHeight(0);
+                        onKeyboardOpened();
                     }
                     isOpened = true;
                 }else if(isOpened){
+                    onKeyboardClosed();
                     isOpened = false;
-                    logo.setVisibility(View.VISIBLE);
-                    header.setVisibility(View.VISIBLE);
-                    slidingUpPanelLayout.setPanelHeight((int) getResources().getDimension(R.dimen.slider_header_closed_height));
-                    privacyText.setVisibility(View.VISIBLE);
-                    //sliderContent.setVisibility(View.VISIBLE);
+
                 }
             }
         });

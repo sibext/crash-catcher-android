@@ -11,9 +11,19 @@
         <meta-data
             android:name="recipient_address"
             android:value="xxxxx@yyy.zzz" />
+
+        <meta-data
+            android:name="catch_server_url"
+            android:value="http://catcher.yozhik.sibext.ru" />
+
+        <meta-data
+            android:name="catch_server_api"
+            android:value="9fef4da83e0140023b4915c72706c5de" />
+
         <meta-data
             android:name="reporter"
-            android:value="com.sibext.android.activity.RedmineReportActivity" />
+            android:value="com.sibext.android.activity.CatchServerReportActivity" />
+
         <activity android:name="com.sibext.android.tools.CatchActivity" />
 
         <activity android:name="com.sibext.android.activity.TestActivity" >
@@ -28,7 +38,7 @@
         </activity>
 
         <activity
-            android:name="com.sibext.android.activity.RedmineReportActivity"
+            android:name="com.sibext.android.activity.CatchServerReportActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@android:style/Theme.Holo.NoActionBar">
         </activity>

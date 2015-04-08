@@ -19,4 +19,16 @@
     <string name="com_sibext_crashcatcher_exit">Закрыть</string>
     <string name="com_sibext_crashcatcher_error">Отправить не удалось, проверьте пожалуйста соединение с интернетом и повторите попытку</string>
     <string name="com_sibext_crashcatcher_select_transfer">Способ для передачи:</string>
+    <string name="exit">Закрыть</string>
+    <string name="comment">Комментарии</string>
+    <string name="button_no_text">Нет, спасибо</string>
+    <string name="button_yes_text">Да, конечно!</string>
+    <string name="choose_photo">Выберите фото</string>
+    <string name="com_sibext_crashcatcher_status_server_unavailable">Сервер временно недоступен</string>
+    <string name="detailed_information">Подробная информация</string>
+    <string name="error_type">Тип ошибки</string>
+    <string name="error_type_crash">Падение</string>
+    <string name="error_type_feedback">Отзыв</string>
+    <string name="error_type_logic_bug">Ошибка логики</string>
+    <string name="error_type_ui_bug">Ошибка интефейса</string>
 </resources>

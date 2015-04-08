@@ -27,4 +27,5 @@
     <dimen name="slider_content_horizontal_padding">30dp</dimen>
     <dimen name="spinner_height">30dp</dimen>
     <dimen name="comments_height">100dp</dimen>
+    <dimen name="panel_padding">10dp</dimen>
 </resources>

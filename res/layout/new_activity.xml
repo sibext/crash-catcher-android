@@ -7,7 +7,7 @@
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
+        android:id="@+id/com_sibext_crashcatcher_sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
-                android:id="@+id/header"
+                android:id="@+id/com_sibext_crashcatcher_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/com_sibext_crashcatcher_orange"
@@ -37,7 +37,7 @@
                     android:paddingRight="@dimen/header_text_padding_vertical"
                     android:paddingLeft="@dimen/header_text_padding_vertical"
                     android:gravity="center"
-                    android:id="@+id/titleText"
+                    android:id="@+id/com_sibext_crashcatcher_titleText"
                     android:textColor="@android:color/white"
                     android:background="@color/com_sibext_crashcatcher_orange"/>
 
@@ -45,13 +45,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/header_line_height"
                     android:background="@android:color/white"
-                    android:layout_alignBottom="@+id/titleText"/>
+                    android:layout_alignBottom="@+id/com_sibext_crashcatcher_titleText"/>
             </RelativeLayout>
 
 
 
             <ImageView
-                android:id="@+id/logo"
+                android:id="@+id/com_sibext_crashcatcher_logo"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
@@ -61,6 +61,7 @@
                 android:src="@drawable/main_screen_logo"/>
 
             <LinearLayout
+                android:id="@+id/com_sibext_crashcatcher_panel"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
                 android:layout_marginLeft="@dimen/panel_horizontal_padding"
                 android:layout_marginRight="@dimen/panel_horizontal_padding"
                 android:layout_weight="0"
-                android:padding="10dp">
+                android:padding="@dimen/panel_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -85,7 +86,7 @@
                     android:layout_height="@dimen/spinner_height"
                     android:layout_weight="0"
                     android:background="@drawable/rounded_rectangle_comment"
-                    android:id="@+id/spinner" />
+                    android:id="@+id/com_sibext_crashcatcher_spinner" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -96,6 +97,7 @@
                     android:textSize="@dimen/panel_text_size"/>
 
                 <LinearLayout
+                    android:id="@+id/com_sibext_crashcatcher_edit_text_layout"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_weight="0"
@@ -105,8 +107,8 @@
                         android:layout_height="match_parent"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="@string/comment_hint"
-                        android:id="@+id/editTextComment"
+                        android:hint="@string/com_sibext_crashcatcher_message_hint"
+                        android:id="@+id/com_sibext_crashcatcher_edit_text_comment"
                         android:background="@drawable/rounded_rectangle_comment"
                         android:padding="5dp"
                         android:minHeight="30dp"
@@ -127,10 +129,11 @@
                 android:visibility="gone"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/privacy_text_size"
-                android:id="@+id/privacy"
+                android:id="@+id/com_sibext_crashcatcher_privacy"
                 android:layout_weight="0"/>
 
             <LinearLayout
+                android:id="@+id/com_sibext_crashcatcher_buttons_layout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,7 +148,7 @@
                     android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/no_yes_button_size"
-                    android:id="@+id/button_no"
+                    android:id="@+id/com_sibext_crashcatcher_button_no"
                     android:background="@drawable/rounded_rectangle_button_no"
                     android:layout_weight="1">
 
@@ -156,6 +159,7 @@
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:textSize="@dimen/no_button_text_size"
+                        android:singleLine="true"
                         android:textColor="@android:color/white"
                         android:background="@color/com_sibext_crashcatcher_gray_dark"/>
                 </LinearLayout>
@@ -169,17 +173,18 @@
                     android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/no_yes_button_size"
-                    android:id="@+id/button_yes"
+                    android:id="@+id/com_sibext_crashcatcher_button_yes"
                     android:background="@drawable/rounded_rectangle_button_yes"
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/button_yes_text"
+                        android:id="@+id/com_sibext_crashcatcher_button_yes_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/yes_button_text_size"
                         android:textColor="@android:color/white"
                         android:text="@string/button_yes_text"
+                        android:singleLine="true"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:background="@color/com_sibext_crashcatcher_orange_dark"/>
@@ -196,7 +201,7 @@
 
         <LinearLayout
             android:visibility="gone"
-            android:id="@+id/slider_content"
+            android:id="@+id/com_sibext_crashcatcher_slider_content"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
