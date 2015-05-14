@@ -28,13 +28,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import com.sibext.android.tools.CatchActivity;
 import com.sibext.crashcatcher.R;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class EmailReportActivity extends NewDesignActivity {
+public class EmailReportActivity extends CatchActivity {
     private static final String TAG = "[CCL] EmailReportActivity";
 
     private String recipient;

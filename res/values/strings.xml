@@ -21,6 +21,7 @@
     <string name="json_key_issue" translatable="false">issue</string>
     <string name="json_key_id" translatable="false">id</string>
     <string name="json_key_track_number" translatable="false">tracker_number</string>
+    <string name="json_key_duplication" translatable="false">duplication</string>
     <string name="json_key_title" translatable="false">title</string>
     <string name="json_key_description" translatable="false">description</string>
     <string name="json_key_build" translatable="false">build</string>
@@ -31,6 +32,8 @@
     <string name="json_error_type_value_ui" translatable="false">ui</string>
     <string name="json_error_type_value_feedback" translatable="false">feedback</string>
 
+    <string name="com_sibext_crashcatcher_status_unknown_error">Error. Report not sended</string>
+    <string name="com_sibext_crashcatcher_status_net_error">Net error</string>
     <string name="com_sibext_crashcatcher_status">Your report was sent, thank you! Report id = %s</string>
     <string name="com_sibext_crashcatcher_status_server_unavailable">Server temporarily unavailable</string>
     <string name="com_sibext_crashcatcher_already_exist">Your report already exist, thank you anyway!</string>

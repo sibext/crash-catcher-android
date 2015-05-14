@@ -24,6 +24,8 @@
     <string name="button_no_text">Нет, спасибо</string>
     <string name="button_yes_text">Да, конечно!</string>
     <string name="choose_photo">Выберите фото</string>
+    <string name="com_sibext_crashcatcher_status_unknown_error">Ошибка. Отчет не отправлен</string>
+    <string name="com_sibext_crashcatcher_status_net_error">Ошибка сети</string>
     <string name="com_sibext_crashcatcher_status_server_unavailable">Сервер временно недоступен</string>
     <string name="detailed_information">Подробная информация</string>
     <string name="error_type">Тип ошибки</string>

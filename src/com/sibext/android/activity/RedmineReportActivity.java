@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+
 import com.sibext.android.tools.CatchActivity;
 import com.sibext.android.tools.SHA1Helper;
 import com.sibext.crashcatcher.R;
@@ -43,7 +44,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class RedmineReportActivity extends NewDesignActivity {
+public class RedmineReportActivity extends CatchActivity {
     private static final String TAG = "[CCL] RedmineReportActivity";
     private String redmineHost = null;
     private String redmineKey = null;
